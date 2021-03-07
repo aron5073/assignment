@@ -1,8 +1,8 @@
+import 'package:assignment/src/screens/add_transcation.dart';
 import 'package:assignment/src/screens/database.dart';
 import 'package:assignment/src/screens/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -49,7 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.lightBlueAccent,
         foregroundColor: Colors.black,
         onPressed: () {
-          fetchData(); //it will fetch all the collection data
+          //it will fetch all the collection data
+          fetchData();
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return addTranscation();
+          }));
           //form will appear up for making changes in the database
         },
         icon: Icon(Icons.add),
