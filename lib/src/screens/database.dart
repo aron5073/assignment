@@ -28,6 +28,23 @@ Future<void> userSetup(
   return;
 }
 
+fetchData() {
+  FirebaseFirestore.instance
+      .collection('expenseTracker')
+      .get()
+      .then((QuerySnapshot) => {
+            QuerySnapshot.docs.forEach((result) {
+              print(result.data());
+            })
+          });
+
+  //this snapshot is a stream and we got listner here
+  //whenever there is a change into the database it listens to that
+  // expenseCollection.snapshots().listen((snapshot) {
+
+  // });
+}
+
 // class DatabaseServices {
 //   final String uid;
 //   DatabaseServices(

@@ -1,9 +1,17 @@
+import 'package:assignment/src/screens/database.dart';
 import 'package:assignment/src/screens/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +49,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.lightBlueAccent,
         foregroundColor: Colors.black,
         onPressed: () {
+          fetchData(); //it will fetch all the collection data
           //form will appear up for making changes in the database
         },
         icon: Icon(Icons.add),
