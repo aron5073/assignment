@@ -1,6 +1,8 @@
+import 'package:assignment/src/screens/database.dart';
 import 'package:assignment/src/screens/home.dart';
 import 'package:assignment/src/screens/verify.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 
@@ -107,10 +109,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _signup(String _email, String _password) async {
     try {
-      await auth.createUserWithEmailAndPassword(
+      UserCredential result = await auth.createUserWithEmailAndPassword(
           email: _email, password: _password);
+      User user = result.user;
 
+      //hum yaha nya document banyenge user ka uid ka sath
+      userSetup('March 7', 'income', 13000, 0, 13000);
+      //creating dummy data here
       //success in signing in
+
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => VerifyScreen()));
     } on FirebaseAuthException catch (error) {
