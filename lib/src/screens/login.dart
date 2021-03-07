@@ -53,36 +53,38 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                style: ButtonStyle(
-                  alignment: Alignment.center,
-                ),
-                child: Text('SignIn'),
-                onPressed: () {
-                  auth
-                      .signInWithEmailAndPassword(
-                          email: _email, password: _password)
-                      .then((_) => {
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (context) => HomeScreen(),
-                            ))
-                          });
-                },
-              ),
+                  style: ButtonStyle(
+                    alignment: Alignment.center,
+                  ),
+                  child: Text('SignIn'),
+                  onPressed: () => _signin(_email, _password)
+                  //  {
+                  //   auth
+                  //       .signInWithEmailAndPassword(
+                  //           email: _email, password: _password)
+                  //       .then((_) => {
+                  //             Navigator.of(context)
+                  //                 .pushReplacement(MaterialPageRoute(
+                  //               builder: (context) => HomeScreen(),
+                  //             ))
+                  //           });
+                  // },
+                  ),
               ElevatedButton(
-                child: Text('SignUp'),
-                onPressed: () {
-                  auth
-                      .createUserWithEmailAndPassword(
-                          email: _email, password: _password)
-                      .then((_) => {
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (context) => VerifyScreen(),
-                            ))
-                          });
-                },
-              ),
+                  child: Text('SignUp'),
+                  onPressed: () => _signup(_email, _password)
+                  // {
+                  //   auth
+                  //       .createUserWithEmailAndPassword(
+                  //           email: _email, password: _password)
+                  //       .then((_) => {
+                  //             Navigator.of(context)
+                  //                 .pushReplacement(MaterialPageRoute(
+                  //               builder: (context) => VerifyScreen(),
+                  //             ))
+                  //           });
+                  // },
+                  ),
             ],
           )
         ],
@@ -99,7 +101,19 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomeScreen()));
     } on FirebaseAuthException catch (error) {
-      print(error.message);
+      Fluttertoast.showToast(msg: error.message, gravity: ToastGravity.TOP);
+    }
+  }
+
+  _signup(String _email, String _password) async {
+    try {
+      await auth.signInWithEmailAndPassword(email: _email, password: _password);
+
+      //success in signing in
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => VerifyScreen()));
+    } on FirebaseAuthException catch (error) {
+      Fluttertoast.showToast(msg: error.message, gravity: ToastGravity.TOP);
     }
   }
 }
