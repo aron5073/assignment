@@ -25,6 +25,7 @@ Future<void> userSetup(
       FirebaseFirestore.instance.collection('expenseTracker');
 
   expenseCollection.add(demoData);
+
   return;
 }
 

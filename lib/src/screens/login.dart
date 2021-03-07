@@ -23,6 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: 180,
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
