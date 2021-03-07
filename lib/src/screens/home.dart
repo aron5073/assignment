@@ -7,17 +7,48 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: TextButton(
-          child: Text('Logout'),
-          onPressed: () => {
-            auth.signOut(),
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => LoginScreen(),
-            )),
-          },
-        ),
-      ),
+      appBar: AppBar(
+          backgroundColor: Colors.blueAccent,
+          title: Text(
+            'Expense Tracker',
+            style: TextStyle(
+              color: Colors.white,
+              fontStyle: FontStyle.italic,
+              // fontWeight: FontWeight.w900,
+              fontSize: 20,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text(
+                'Logout',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontStyle: FontStyle.italic,
+                  // fontWeight: FontWeight.w900,
+                  fontSize: 20,
+                ),
+              ),
+              onPressed: () => {
+                auth.signOut(),
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => LoginScreen(),
+                )),
+              },
+            ),
+          ]),
+
+      // body: Center(
+      //   child: TextButton(
+      //     child: Text('Logout'),
+      //     onPressed: () => {
+      //       auth.signOut(),
+      //       Navigator.of(context).pushReplacement(MaterialPageRoute(
+      //         builder: (context) => LoginScreen(),
+      //       )),
+      //     },
+      //   ),
+      // ),
     );
   }
 }
