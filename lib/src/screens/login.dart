@@ -107,7 +107,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _signup(String _email, String _password) async {
     try {
-      await auth.signInWithEmailAndPassword(email: _email, password: _password);
+      await auth.createUserWithEmailAndPassword(
+          email: _email, password: _password);
 
       //success in signing in
       Navigator.of(context).pushReplacement(
