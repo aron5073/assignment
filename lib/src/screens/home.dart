@@ -37,18 +37,16 @@ class HomeScreen extends StatelessWidget {
               },
             ),
           ]),
-
-      // body: Center(
-      //   child: TextButton(
-      //     child: Text('Logout'),
-      //     onPressed: () => {
-      //       auth.signOut(),
-      //       Navigator.of(context).pushReplacement(MaterialPageRoute(
-      //         builder: (context) => LoginScreen(),
-      //       )),
-      //     },
-      //   ),
-      // ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.lightBlueAccent,
+        foregroundColor: Colors.black,
+        onPressed: () {
+          //form will appear up for making changes in the database
+        },
+        icon: Icon(Icons.add),
+        label: Text('Add Transcation'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

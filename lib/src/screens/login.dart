@@ -109,12 +109,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _signup(String _email, String _password) async {
     try {
-      UserCredential result = await auth.createUserWithEmailAndPassword(
+      await auth.createUserWithEmailAndPassword(
           email: _email, password: _password);
-      User user = result.user;
 
       //hum yaha nya document banyenge user ka uid ka sath
-      userSetup('March 7', 'income', 13000, 0, 13000);
+      userSetup('date', 'description', 0, 0,
+          0); //date ,description, credit ,debit ,balance
       //creating dummy data here
       //success in signing in
 
