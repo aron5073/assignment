@@ -12,9 +12,11 @@ class _addTranscationState extends State<addTranscation> {
   TextEditingController descriptionController = TextEditingController();
 
   //making varibales which pass values to another page
-  var _valueSelectedByUser = 'credit';
-  var _amountValue = '';
-  var _descriptionValue = '';
+  String _valueSelectedByUser = 'debit';
+  String _amountValue = '';
+  String _descriptionValue = '';
+
+  crudMethods crudObj = new crudMethods();
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +40,16 @@ class _addTranscationState extends State<addTranscation> {
                   );
                 }).toList(),
                 style: textStyle,
-                value: 'credit',
+                value: 'debit',
                 onChanged: (valueSelectedByUser) {
                   setState(() {
+                    if (valueSelectedByUser == 'debit')
+                      valueSelectedByUser = 'credit';
+                    else
+                      valueSelectedByUser = 'debit';
                     debugPrint(
                         'transcation type selected $valueSelectedByUser');
+                    _valueSelectedByUser = valueSelectedByUser;
                   });
                 },
               ),
@@ -109,11 +116,23 @@ class _addTranscationState extends State<addTranscation> {
                         textScaleFactor: 1.5,
                       ),
                       onPressed: () {
-                        setState(() {
-                          debugPrint('changes done in save button');
-                          showData(_valueSelectedByUser, _amountValue,
-                              _descriptionValue);
+                        Navigator.of(context).pop();
+                        Map<String, dynamic> userData = {
+                          'amountValue': _amountValue,
+                          'descriptionValue': _descriptionValue,
+                          'valueSelectedByUser': _valueSelectedByUser
+                        };
+                        crudObj.showData(userData).then((result) {
+                          dialogTrigger(context);
+                        }).catchError((e) {
+                          print(e);
                         });
+                        // setState(() {
+                        //   debugPrint('changes done in save button');
+                        //   // showData(_valueSelectedByUser, _amountValue,
+                        //   //     _descriptionValue);
+
+                        // });
                       },
                     ),
                   ),
@@ -146,4 +165,29 @@ class _addTranscationState extends State<addTranscation> {
       ),
     );
   }
+}
+
+Future<bool> dialogTrigger(BuildContext context) async {
+  return showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          'job done',
+          style: TextStyle(
+            fontSize: 15.0,
+          ),
+        ),
+        content: Text('Added'),
+        actions: [
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('alright')),
+        ],
+      );
+    },
+  );
 }

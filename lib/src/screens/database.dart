@@ -1,12 +1,32 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 //will create the document for the particular user
 
 Map data;
+
+class crudMethods {
+  bool isLoggedIn() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<void> showData(Map<String, dynamic> userData) {
+    FirebaseFirestore.instance
+        .collection('expenseTracker')
+        .add(userData)
+        .catchError((e) {
+      print(e);
+    });
+  }
+}
 
 Future<void> userSetup(
     String date, String description, int credit, int debit, int balance) async {
@@ -44,18 +64,9 @@ fetchData() {
           });
 }
 
-showData(var type, var amount, var expensedescription) {
-  var url = Uri.https(
-      'https://expense-tracker-63ceb-default-rtdb.firebaseio.com/',
-      '/expenseCollection.json');
-  http.post(url,
-      body: json.encode({
-        'date': DateTime.now().toString(),
-        'description': expensedescription,
-        'amount': amount,
-      }));
+// Future<void> showData(userData) async {
 
-  debugPrint(type);
-  debugPrint(amount);
-  debugPrint(expensedescription);
-}
+//   // debugPrint(type);
+//   // debugPrint(amount);
+//   // debugPrint(expensedescription);
+// }
