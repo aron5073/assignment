@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter/material.dart';
 
 //will create the document for the particular user
 
@@ -30,43 +33,29 @@ Future<void> userSetup(
 }
 
 fetchData() {
+  var firebaseUser = FirebaseAuth.instance.currentUser;
   FirebaseFirestore.instance
       .collection('expenseTracker')
+      .doc(firebaseUser.uid)
       .get()
-      .then((QuerySnapshot) => {
-            QuerySnapshot.docs.forEach((result) {
-              print(result.data());
-            })
+      .then((DocumentSnapshot) => {
+            print(DocumentSnapshot.data()),
+            print(firebaseUser.uid),
           });
-
-  //this snapshot is a stream and we got listner here
-  //whenever there is a change into the database it listens to that
-  // expenseCollection.snapshots().listen((snapshot) {
-
-  // });
 }
 
-// class DatabaseServices {
-//   final String uid;
-//   DatabaseServices(
-//       {this.uid}); //making a constructor to get current user databse
+showData(var type, var amount, var expensedescription) {
+  var url = Uri.https(
+      'https://expense-tracker-63ceb-default-rtdb.firebaseio.com/',
+      '/expenseCollection.json');
+  http.post(url,
+      body: json.encode({
+        'date': DateTime.now().toString(),
+        'description': expensedescription,
+        'amount': amount,
+      }));
 
-//   //giving collection reference
-//   final CollectionReference expenseCollection = FirebaseFirestore.instance
-//       .collection(
-//           'expenseTracker'); //here we are creating a table of name expenseTracker
-//   //if it doesnot exists it will create one if exists the take refrence of that
-
-//   Future updateUserData(String date, String description, int credit, int debit,
-//       int balance) async {
-//         //it will create a document of that user in the collection expenseTracker
-
-//     return await expenseCollection.doc(uid).set({//setData is changed to set and document is changed to doc
-//       'date':date,
-//       'description':description,
-//       'credit' :credit,
-//       'debit':debit,
-//       'balance':balance,
-//     });
-//   }
-// }
+  debugPrint(type);
+  debugPrint(amount);
+  debugPrint(expensedescription);
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:assignment/src/screens/database.dart';
 
 class addTranscation extends StatefulWidget {
   @override
@@ -7,9 +8,13 @@ class addTranscation extends StatefulWidget {
 
 class _addTranscationState extends State<addTranscation> {
   static var _transcationtype = ['credit', 'debit'];
-
   TextEditingController amountController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+
+  //making varibales which pass values to another page
+  var _valueSelectedByUser = 'credit';
+  var _amountValue = '';
+  var _descriptionValue = '';
 
   @override
   Widget build(BuildContext context) {
@@ -47,10 +52,15 @@ class _addTranscationState extends State<addTranscation> {
             Padding(
               padding: EdgeInsets.only(top: 15.0, bottom: 15.0),
               child: TextField(
+                keyboardType: TextInputType.number,
                 controller: amountController,
                 style: textStyle,
-                onChanged: (value) {
-                  debugPrint('something changed in amount box');
+                onChanged: (amountValue) {
+                  setState(() {
+                    debugPrint(
+                        'something changed in amount box   $amountValue');
+                    _amountValue = amountValue;
+                  });
                 },
                 decoration: InputDecoration(
                     labelText: 'Amount',
@@ -68,8 +78,12 @@ class _addTranscationState extends State<addTranscation> {
               child: TextField(
                 controller: descriptionController,
                 style: textStyle,
-                onChanged: (value) {
-                  debugPrint('something changed in description box');
+                onChanged: (descriptionValue) {
+                  setState(() {
+                    debugPrint(
+                        'something changed in description box $descriptionValue ');
+                    _descriptionValue = descriptionValue;
+                  });
                 },
                 decoration: InputDecoration(
                     labelText: 'Description',
@@ -96,7 +110,9 @@ class _addTranscationState extends State<addTranscation> {
                       ),
                       onPressed: () {
                         setState(() {
-                          debugPrint('changes done in save vutton');
+                          debugPrint('changes done in save button');
+                          showData(_valueSelectedByUser, _amountValue,
+                              _descriptionValue);
                         });
                       },
                     ),
@@ -112,7 +128,12 @@ class _addTranscationState extends State<addTranscation> {
                       ),
                       onPressed: () {
                         setState(() {
-                          debugPrint('changes done in save vutton');
+                          debugPrint('changes done in delete button ');
+                          _amountValue = '0';
+                          _descriptionValue = '';
+
+                          amountController.clear();
+                          descriptionController.clear();
                         });
                       },
                     ),
