@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment/src/screens/database.dart';
 
@@ -16,7 +17,18 @@ class _addTranscationState extends State<addTranscation> {
   String _amountValue = '';
   String _descriptionValue = '';
 
+  QuerySnapshot showndata;
   crudMethods crudObj = new crudMethods();
+
+  @override
+  void initState() {
+    super.initState();
+    crudObj.getData().then((result) {
+      setState(() {
+        showndata = result;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

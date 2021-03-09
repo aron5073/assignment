@@ -18,13 +18,18 @@ class crudMethods {
     }
   }
 
+  //we are adding the data here
   Future<void> showData(Map<String, dynamic> userData) {
-    FirebaseFirestore.instance
-        .collection('expenseTracker')
-        .add(userData)
-        .catchError((e) {
+    String uid = FirebaseAuth.instance.currentUser.uid.toString();
+    FirebaseFirestore.instance.collection(uid).add(userData).catchError((e) {
       print(e);
     });
+  }
+
+  //for showing data from firestore
+  getData() async {
+    String uid = FirebaseAuth.instance.currentUser.uid.toString();
+    return await FirebaseFirestore.instance.collection(uid).get();
   }
 }
 
