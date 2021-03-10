@@ -25,8 +25,8 @@ class crudMethods {
 
   //for showing data from firestore
   getData() async {
-    String uid = FirebaseAuth.instance.currentUser.uid.toString();
-    return await FirebaseFirestore.instance.collection(uid).get();
+    String uids = FirebaseAuth.instance.currentUser.uid.toString();
+    return await FirebaseFirestore.instance.collection(uids).get();
   }
 }
 

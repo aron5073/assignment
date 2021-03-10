@@ -47,16 +47,6 @@ class _addTranscationState extends State<addTranscation> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    crudObj.getData().then((result) {
-      setState(() {
-        showndata = result;
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     TextStyle textStyle = Theme.of(context).textTheme.headline6;
 
@@ -156,6 +146,9 @@ class _addTranscationState extends State<addTranscation> {
                       onPressed: () {
                         Navigator.of(context).pop();
                         Map<String, dynamic> userData = {
+                          'day': DateTime.now().day.toString(),
+                          'month': DateTime.now().month.toString(),
+                          'year': DateTime.now().year.toString(),
                           'amountValue': _amountValue,
                           'descriptionValue': _descriptionValue,
                           'valueSelectedByUser': _valueSelectedByUser
