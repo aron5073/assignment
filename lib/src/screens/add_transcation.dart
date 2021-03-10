@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment/src/screens/database.dart';
 
+// ignore: camel_case_types
 class addTranscation extends StatefulWidget {
   @override
   _addTranscationState createState() => _addTranscationState();
 }
 
+// ignore: camel_case_types
 class _addTranscationState extends State<addTranscation> {
   static var _transcationtype = ['credit', 'debit'];
   TextEditingController amountController = TextEditingController();
@@ -19,6 +21,30 @@ class _addTranscationState extends State<addTranscation> {
 
   QuerySnapshot showndata;
   crudMethods crudObj = new crudMethods();
+
+  // ignore: non_constant_identifier_names
+  Future<void> Trigger(BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              'job done',
+              style: TextStyle(
+                fontSize: 15.0,
+              ),
+            ),
+            content: Text('Added'),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('alright')),
+            ],
+          );
+        });
+  }
 
   @override
   void initState() {
@@ -52,13 +78,13 @@ class _addTranscationState extends State<addTranscation> {
                   );
                 }).toList(),
                 style: textStyle,
-                value: 'debit',
+                value: _valueSelectedByUser,
                 onChanged: (valueSelectedByUser) {
                   setState(() {
                     if (valueSelectedByUser == 'debit')
-                      valueSelectedByUser = 'credit';
-                    else
                       valueSelectedByUser = 'debit';
+                    else
+                      valueSelectedByUser = 'credit';
                     debugPrint(
                         'transcation type selected $valueSelectedByUser');
                     _valueSelectedByUser = valueSelectedByUser;
@@ -135,10 +161,15 @@ class _addTranscationState extends State<addTranscation> {
                           'valueSelectedByUser': _valueSelectedByUser
                         };
                         crudObj.showData(userData).then((result) {
-                          dialogTrigger(context);
+                          Trigger(context);
                         }).catchError((e) {
                           print(e);
                         });
+                        // .then((_) {
+                        //   Trigger();
+                        // }).catchError((e) {
+                        //   print('not going on trigger()');
+                        // });
                         // setState(() {
                         //   debugPrint('changes done in save button');
                         //   // showData(_valueSelectedByUser, _amountValue,
@@ -177,29 +208,4 @@ class _addTranscationState extends State<addTranscation> {
       ),
     );
   }
-}
-
-Future<bool> dialogTrigger(BuildContext context) async {
-  return showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text(
-          'job done',
-          style: TextStyle(
-            fontSize: 15.0,
-          ),
-        ),
-        content: Text('Added'),
-        actions: [
-          ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('alright')),
-        ],
-      );
-    },
-  );
 }

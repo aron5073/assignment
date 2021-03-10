@@ -1,14 +1,11 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:flutter/material.dart';
 
 //will create the document for the particular user
 
 Map data;
 
+// ignore: camel_case_types
 class crudMethods {
   bool isLoggedIn() {
     if (FirebaseAuth.instance.currentUser != null) {
@@ -19,7 +16,7 @@ class crudMethods {
   }
 
   //we are adding the data here
-  Future<void> showData(Map<String, dynamic> userData) {
+  Future<void> showData(Map<String, dynamic> userData) async {
     String uid = FirebaseAuth.instance.currentUser.uid.toString();
     FirebaseFirestore.instance.collection(uid).add(userData).catchError((e) {
       print(e);
@@ -63,6 +60,7 @@ fetchData() {
       .collection('expenseTracker')
       .doc(firebaseUser.uid)
       .get()
+      // ignore: non_constant_identifier_names
       .then((DocumentSnapshot) => {
             print(DocumentSnapshot.data()),
             print(firebaseUser.uid),
